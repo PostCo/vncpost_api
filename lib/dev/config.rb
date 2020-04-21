@@ -5,4 +5,3 @@ def set_config
     config.password = ENV["VNCPOST_PASSWORD"]
   end
 end
-set_config

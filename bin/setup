@@ -10,6 +10,8 @@ filename=".env"
 if [ ! -f $filename ]
 then
     touch $filename
-    echo "VNCPOST_TESTING=true" >> $filename
-    echo "VNCPOST_API_GEM_ENV=development" >> $filename
+    echo "VNCPOST_API_HOST=http://tu.api.vncpost.com" >> $filename
+    echo "VNCPOST_USERNAME=postco" >> $filename
+    echo "VNCPOST_PASSWORD=" >> $filename
+    echo "VNCPostAPI_GEM_ENV=development" >> $filename
 fi

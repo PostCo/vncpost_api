@@ -1,6 +1,11 @@
 require "vncpost_api/version"
+require "active_resource"
 
 module VNCPostAPI
-  class Error < StandardError; end
-  # Your code goes here...
+  require "vncpost_api/configuration"
+
+  require "vncpost_api/connection"
+
+  require "vncpost_api/resources/base"
+  require "vncpost_api/resources/order"
 end
