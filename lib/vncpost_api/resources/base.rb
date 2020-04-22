@@ -25,6 +25,7 @@ module VNCPostAPI
     private
 
     def self.retrieve_token
+      clear_auth_token
       if VNCPostAPI.config&.username && VNCPostAPI.config&.password
         response = connection.post("/User/Login", {
           Username: VNCPostAPI.config.username,
@@ -35,6 +36,11 @@ module VNCPostAPI
       else
         raise ArgumentError, "Please set the username and password in the config file under the initializer dir"
       end
+    end
+
+    def self.clear_auth_token
+      connection.auth_type = nil
+      connection.bearer_token = nil
     end
 
     def format_before_send_request

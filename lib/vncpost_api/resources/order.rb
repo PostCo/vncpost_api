@@ -54,7 +54,6 @@ module VNCPostAPI
     def initialize(attributes = {}, persisted = false)
       attributes = DEFAULT_ATTRS.merge(attributes)
       super
-      # set_service_id
     end
 
     def track
