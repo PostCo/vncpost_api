@@ -1,0 +1,47 @@
+name: Rspec
+
+on: [push]
+
+env:
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: "postgres"
+  POSTGRES_DB: "postco_test"
+
+jobs:
+  rspec:
+    name: Rspec
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        ruby: ["2.5", "2.6", "2.7"]
+      fail-fast: true
+    steps:
+      - name: Checkout to repo
+        uses: actions/checkout@master
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+
+      - name: Cache ruby gems
+        uses: actions/cache@v1
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-gems-
+
+      - name: Build gem
+        run: |
+          gem install bundler
+          bundle config path vendor/bundle
+          bundle install --jobs 4 --retry 3
+
+      - name: Run rspec tests
+        env:
+          VNCPOST_API_HOST: ${{secrets.VNCPOST_API_HOST}}
+          VNCPOST_USERNAME: ${{secrets.VNCPOST_USERNAME}}
+          VNCPOST_PASSWORD: ${{secrets.VNCPOST_PASSWORD}}
+        run: |
+          bundle exec rspec spec
