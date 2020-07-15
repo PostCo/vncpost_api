@@ -7,5 +7,6 @@ module VNCPostAPI
   require "vncpost_api/connection"
 
   require "vncpost_api/resources/base"
+  require "vncpost_api/resources/tracking"
   require "vncpost_api/resources/order"
 end
