@@ -47,20 +47,14 @@ module VNCPostAPI
     self.prefix = "/Order/Add"
     self.element_name = ""
 
-    def self.track(code)
-      new(code: code).track
-    end
-
     def initialize(attributes = {}, persisted = false)
       attributes = DEFAULT_ATTRS.merge(attributes)
       super
     end
 
     def track
-      puts "#track only available in production environment"
-      self.class.retrieve_token
       tracking_number = @attributes[:returned_code] || @attributes[:code]
-      get("Track/#{tracking_number}")
+      Tracking.find(tracking_number)
     end
 
     private

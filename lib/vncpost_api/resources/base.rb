@@ -3,7 +3,6 @@ module VNCPostAPI
     self.include_root_in_json = false
     self.include_format_in_path = false
     self.connection_class = VNCPostAPI::Connection
-    self.site = VNCPostAPI.config&.api_host
 
     def create
       self.class.retrieve_token
@@ -26,8 +25,9 @@ module VNCPostAPI
 
     def self.retrieve_token
       clear_auth_token
+
       if VNCPostAPI.config&.username && VNCPostAPI.config&.password
-        response = connection.post("/User/Login", {
+        response = connection.post("#{Base.site}/User/Login", {
           Username: VNCPostAPI.config.username,
           Password: VNCPostAPI.config.password
         }.to_json)
@@ -44,16 +44,17 @@ module VNCPostAPI
     end
 
     def format_before_send_request
-      @attributes.transform_keys!(&:camelcase)
+      @attributes.deep_transform_keys!(&:camelcase)
     end
 
     def reset_attributes_format
-      @attributes.transform_keys!(&:underscore)
+      @attributes.deep_transform_keys!(&:underscore)
     end
 
     def load_attributes_from_response(response)
       super
       reset_attributes_format
     end
+
   end
 end

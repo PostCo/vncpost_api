@@ -8,8 +8,8 @@ RSpec.describe VNCPostAPI do
   describe "VNCPostAPI::Order" do
     let(:code) { "P360-4344" }
     let(:order) do
-      VNCPostAPI::Order.new({
-        code: code,
+      VNCPostAPI::Order.new(
+        code: 'ABC12345',
         product_name: "Fashion Apparel",
         collect_amount: 0,
         journey_type: 1,
@@ -36,7 +36,7 @@ RSpec.describe VNCPostAPI do
         return_ward: nil,
         return_name: nil,
         return_phone_number: nil
-      })
+      )
     end
 
     describe "validation" do
