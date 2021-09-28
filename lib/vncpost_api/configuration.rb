@@ -4,23 +4,33 @@ module VNCPostAPI
     alias_method :testing?, :testing
   end
 
-  def self.config
-    @config ||= Configuration.new
-  end
+  class << self
+    def config
+      @config ||= Configuration.new
+    end
 
-  def self.config=(config)
-    @config = config
-  end
+    def configure
+      yield config
 
-  def self.configure
-    yield config
-    # set the site once user configure
-    if config.testing?
-      VNCPostAPI::Base.site = "http://api.v3.vncpost.com"
-      VNCPostAPI::Tracking.site ="https://pt.v.vncpost.com"
-    else
-      VNCPostAPI::Base.site = "http://u.api.vncpost.com"
-      VNCPostAPI::Tracking.site = "https://pt.vncpost.com"
+      after_configure
+    end
+
+    private
+
+    def after_configure
+      if config.testing?
+        VNCPostAPI::Base.site = "http://api.v3.vncpost.com"
+        VNCPostAPI::UserLogin.site = "http://api.v3.vncpost.com"
+      else
+        VNCPostAPI::Base.site = "https://u.api.vncpost.com"
+        VNCPostAPI::UserLogin.site = "https://u.api.vncpost.com"
+      end
+      # Tracking is only available on production
+      VNCPostAPI::Tracking.site = "http://pt.vncpost.com"
+
+      return unless defined?(Rails) && Rails.respond_to?(:cache) && Rails.cache.is_a?(ActiveSupport::Cache::Store)
+
+      VNCPostAPI.cache = Rails.cache
     end
   end
 end

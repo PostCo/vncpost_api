@@ -9,7 +9,7 @@ RSpec.describe VNCPostAPI do
     let(:code) { "P360-4344" }
     let(:order) do
       VNCPostAPI::Order.new(
-        code: 'ABC12345',
+        code: "ABCD123",
         product_name: "Fashion Apparel",
         collect_amount: 0,
         journey_type: 1,
@@ -31,11 +31,11 @@ RSpec.describe VNCPostAPI do
         dest_ward: "Xã Ninh Sở",
         dest_name: "Andy Chong",
         dest_phone_number: "+84-355-5585-42",
-        return_city: nil,
-        return_district: nil,
-        return_ward: nil,
-        return_name: nil,
-        return_phone_number: nil
+        return_city: "Hà Nội",
+        return_district: "Huyện Thường Tín",
+        return_ward: "Xã Ninh Sở",
+        return_name: "Andy Chong",
+        return_phone_number: "+84-355-5585-42"
       )
     end
 
@@ -47,8 +47,8 @@ RSpec.describe VNCPostAPI do
       context "failure" do
         context "presences" do
           attrs = [:code, :product_name, :collect_amount, :weight, :width, :height, :length,
-                   :source_address, :source_city, :source_district, :source_ward, :source_name, :source_phone_number,
-                   :dest_city, :dest_district, :dest_ward, :dest_name, :dest_phone_number, :dest_address]
+            :source_address, :source_city, :source_district, :source_ward, :source_name, :source_phone_number,
+            :dest_city, :dest_district, :dest_ward, :dest_name, :dest_phone_number, :dest_address]
 
           attrs.each do |attr|
             before { order.send("#{attr}=", nil) }

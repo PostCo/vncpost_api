@@ -4,13 +4,14 @@ module VNCPostAPI
       body = JSON.parse(response.body)
       if body["Message"]
         message = "Failed.".dup
-        message << " Error message: #{body["Message"]}"
+        message << " Message: #{body["Message"]}"
         message
       else
         super
       end
     end
   end
+
   class Connection < ActiveResource::Connection
     private
 
