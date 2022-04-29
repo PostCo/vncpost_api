@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.summary = "Ruby object based VNCPost API wrapper."
   spec.homepage = "https://github.com/PostCo/vncpost_api"
   spec.license = "MIT"
-  spec.required_ruby_version = Gem::Requirement.new(">= 2.3.0")
+  spec.required_ruby_version = Gem::Requirement.new(">= 2.7.0")
 
   spec.metadata["allowed_push_host"] = "https://rubygems.org/"
 
@@ -26,11 +26,12 @@ Gem::Specification.new do |spec|
   spec.executables = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "activeresource"
+  spec.add_dependency "activeresource", ">= 4.1.0"
   spec.add_dependency "jwt"
 
   spec.add_development_dependency "rspec", "~> 3.2"
   spec.add_development_dependency "dotenv"
+  spec.add_development_dependency "zeitwerk"
   spec.add_development_dependency "pry-byebug"
   spec.add_development_dependency "pry"
 end
