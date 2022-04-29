@@ -6,7 +6,7 @@ module VNCPostAPI
     self.auth_type = :bearer
 
     def create
-      connection.bearer_token = UserLogin.bearer_token
+      connection.bearer_token = UserLogin.get_bearer_token
       format_before_send_request
       super
     rescue => e

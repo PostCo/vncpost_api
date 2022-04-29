@@ -1,6 +1,7 @@
 require "bundler/setup"
 require "dotenv/load"
 require "vncpost_api"
+require "pry"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
@@ -11,5 +12,9 @@ RSpec.configure do |config|
 
   config.expect_with :rspec do |c|
     c.syntax = :expect
+  end
+
+  config.before(:each) do
+    VNCPostAPI.cache.clear
   end
 end

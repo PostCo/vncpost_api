@@ -8,7 +8,7 @@ module VNCPostAPI
     self.element_name = ""
 
     class << self
-      def bearer_token(username: VNCPostAPI.config.username, password: VNCPostAPI.config.password)
+      def get_bearer_token(username: VNCPostAPI.config.username, password: VNCPostAPI.config.password)
         cache_key = "VNCPostAPI/bearer_token"
         cached_token = VNCPostAPI.cache.read(cache_key)
         return cached_token if cached_token
@@ -17,7 +17,7 @@ module VNCPostAPI
         VNCPostAPI.cache.write(
           cache_key,
           token,
-          expires_in: expires_in(token) - 15 # clear cache earlier
+          expires_in: expires_in(token) - 15
         )
 
         token
