@@ -44,7 +44,7 @@ module VNCPostAPI
       return_phone_number: nil
     }
 
-    self.prefix = "/Order/Add"
+    self.prefix = "/VietNamV3/v3/api/process/sears/Order/Add"
     self.element_name = ""
 
     def initialize(attributes = {}, persisted = false)

@@ -4,7 +4,7 @@ module VNCPostAPI
   class UserLogin < ::ActiveResource::Base
     self.include_root_in_json = false
     self.include_format_in_path = false
-    self.prefix = "/User/Login"
+    self.prefix = "/VietNamV3/v3/api/process/sears/User/Login"
     self.element_name = ""
 
     class << self
