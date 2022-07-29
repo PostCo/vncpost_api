@@ -34,6 +34,7 @@ RSpec.describe VNCPostAPI do
         return_city: 'Hà Nội',
         return_district: 'Huyện Thường Tín',
         return_ward: 'Xã Ninh Sở',
+        return_address: 'No. 12',
         return_name: 'Andy Chong',
         return_phone_number: '+84-355-5585-42'
       )
@@ -53,7 +54,7 @@ RSpec.describe VNCPostAPI do
           attrs.each do |attr|
             before { order.send("#{attr}=", nil) }
             it do
-              order.valid?
+              expect(order.valid?).to eq(false)
               expect(order.errors.messages.keys).to include(attr.to_s.to_sym)
             end
           end
@@ -93,8 +94,8 @@ RSpec.describe VNCPostAPI do
 
         before do
           ActiveResource::HttpMock.respond_to do |mock|
-            mock.post('/User/Login', {}, { token: token }.to_json, 200)
-            mock.post('/Order/Add',
+            mock.post('/VietNamV3/v3/api/process/sears/User/Login', {}, { token: token }.to_json, 200)
+            mock.post('/VietNamV3/v3/api/process/sears/Order/Add',
                       headers,
                       {
                         Result: 1,
@@ -105,12 +106,10 @@ RSpec.describe VNCPostAPI do
                       200)
           end
         end
+        
         it do
           order.save
           expect(order.code).to eq(code)
-        end
-        it do
-          order.save
           expect(order.returned_code).to eq(returned_code)
         end
       end
@@ -119,7 +118,7 @@ RSpec.describe VNCPostAPI do
         context 'login failed' do
           it do
             ActiveResource::HttpMock.respond_to do |mock|
-              mock.post('/User/Login', {}, nil, 401)
+              mock.post('/VietNamV3/v3/api/process/sears/User/Login', {}, nil, 401)
             end
             expect { order.save }.to raise_error(ActiveResource::UnauthorizedAccess)
           end
@@ -127,8 +126,8 @@ RSpec.describe VNCPostAPI do
         context 'order creation failed' do
           before do
             ActiveResource::HttpMock.respond_to do |mock|
-              mock.post('/User/Login', {}, { token: token }.to_json, 200)
-              mock.post('/Order/Add',
+              mock.post('/VietNamV3/v3/api/process/sears/User/Login', {}, { token: token }.to_json, 200)
+              mock.post('/VietNamV3/v3/api/process/sears/Order/Add',
                         headers,
                         {
                           Result: 2,

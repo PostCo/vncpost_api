@@ -19,11 +19,13 @@ module VNCPostAPI
 
     def after_configure
       if config.testing?
-        VNCPostAPI::Base.site = "http://api.v3.vncpost.com"
-        VNCPostAPI::UserLogin.site = "http://api.v3.vncpost.com"
+        test_site = "http://sgp-seaedi-test.800best.com"
+        VNCPostAPI::Base.site = test_site
+        VNCPostAPI::UserLogin.site = test_site
       else
-        VNCPostAPI::Base.site = "https://u.api.vncpost.com"
-        VNCPostAPI::UserLogin.site = "https://u.api.vncpost.com"
+        production_site = "http://sgp-seaedi.800best.com"
+        VNCPostAPI::Base.site = production_site
+        VNCPostAPI::UserLogin.site = production_site
       end
       # Tracking is only available on production
       VNCPostAPI::Tracking.site = "http://pt.vncpost.com"
